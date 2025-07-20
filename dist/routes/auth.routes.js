@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import auth from '#controllers/auth.controller';
+import * as AuthSchemas from '#validations/auth.schema';
+import { validate } from '#middlewares/validate.middleware';
+import { checkToken } from '#middlewares/checkToken.middleware';
+const router = Router();
+router.post('/auth/login', validate(AuthSchemas.loginSchema), auth.login);
+router.post('/auth/register', validate(AuthSchemas.registerSchema), auth.register);
+router.post('/auth/forgot-password', validate(AuthSchemas.forgotPasswordSchema), auth.forgotPassword);
+router.get('/auth/profile', validate(AuthSchemas.profileScheme), checkToken(), auth.profile);
+export default router;

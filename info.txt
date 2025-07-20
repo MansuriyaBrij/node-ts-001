@@ -1,0 +1,16 @@
+-----------------------------------------------------------------------------
+setup
+-----------------------------------------------------------------------------
+mkdir node-ts-app; cd node-ts-app
+npm init -y
+npm install express
+npm install -D typescript tsx @types/node @types/express
+npx tsc --init
+mkdir src, src\controllers, src\routes, src\middlewares, src\services
+-----------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------
+all new table 
+-------------------------------------------------------------------------------------
+npx prisma migrate dev --name add_blacklist_table
