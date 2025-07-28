@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '#lib/prisma';
 import { date } from 'zod';
-import { PostResource } from '#resources/PostResource';
+import { PostResourceList, PostResource } from '#resources/PostResource';
 export class AuthController {
   // Register
   public async list(req: Request, res: Response) {
@@ -18,7 +18,7 @@ export class AuthController {
       return res.json({
         success: true,
         message: 'Posts retrieved successfully',
-        data: posts,
+        data: PostResourceList(posts),
       });
 
     } catch (error) {
@@ -35,17 +35,17 @@ export class AuthController {
     const { title, content, published, tags } = req.body;
 
     try {
-       const post = await prisma.post.create({
-      data: {
-        title,
-        content,
-        published,
-        tags,
-        author: {
-          connect: { id: req?.user?.id }, // userId → author relation
+      const post = await prisma.post.create({
+        data: {
+          title,
+          content,
+          published,
+          tags,
+          author: {
+            connect: { id: req?.user?.id }, // userId → author relation
+          },
         },
-      },
-    });
+      });
 
       return res.json({
         success: true,
@@ -111,10 +111,10 @@ export class AuthController {
       return res.json({
         success: true,
         message: 'Post details retrieved successfully',
-        data: post,
+        data: PostResource(post),
       });
 
-      
+
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -155,9 +155,6 @@ export class AuthController {
       });
     }
   }
-
-
-
 }
 
 export default new AuthController();

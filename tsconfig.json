@@ -24,7 +24,7 @@
       "#resources": ["src/resources/*"],
     }
   },
-  "include": ["src", "generated"],
+  "include": ["src", "generated", "src/controllers/upload.controller/.ts"],
   "ts-node": {
     "esm": true
   }
