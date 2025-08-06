@@ -38,6 +38,8 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 }
 
 
+
+
 app.use(fileUpload());
 app.use('/uploads', express.static(UPLOAD_DIR));
 
