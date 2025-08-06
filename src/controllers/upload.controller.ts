@@ -1,41 +1,48 @@
 import { Request, Response } from 'express';
-import { prisma } from '#lib/prisma';
-import { date } from 'zod';
-import { PostResourceList, PostResource } from '#resources/PostResource';
-import {env} from '#config/env';
-export class AuthController {
+
+export class UploadController {
     // Register
     public async uploadSingle(req: Request, res: Response) {
-        try {
-            const file = req.file;
-            if (!file) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'No file uploaded',
-                });
-            }
 
-            // Save the file to the uploads directory
-            const uploadPath = path.join(__dirname, 'uploads', file.originalname);
-
-
-            return res.json({
-                success: true,
-                message: 'Posts retrieved successfully',
-                data: {
-                    "url": `/uploads/${file.originalname}`,
-                }
-            });
-
-        } catch (error) {
-            return res.json({
+        if (!req.file) {
+            return res.status(400).json({
                 success: false,
-                message: 'Posts retrieved successfully',
-                data: [],
+                message: 'No file uploaded',
             });
         }
+
+        return res.json({
+            success: true,
+            message: 'File uploaded successfully',
+            data: {
+                "url": `${process.env.BASE_URL}uploads/${req.file?.filename}`,
+            }
+        });
+
+
+    }
+
+    //demo express js 
+    public async uploadSingle2(req: Request, res: Response) {
+
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).json({ success: false, message: 'No file uploaded' });
+        }
+
+        const file = req.files.file;
+        if (!file) {
+            return res.status(400).json({ success: false, message: 'No file named "file" uploaded' });
+        }
+
+        return res.json({
+            success: true,
+            message: 'File uploaded successfully',
+            data: {
+                "url": `${process.env.BASE_URL}uploads/${file?.name}`,
+            }
+        })
+
     }
 }
 
-
-export default new AuthController();
+export default new UploadController();

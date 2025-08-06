@@ -1,14 +1,37 @@
 import { Router } from 'express';
 import upload from '#controllers/upload.controller';
-import * as postSchema from '#validations/upload.schema';
+// import * as postSchema from '#validations/upload.schema';
 import { validate } from '#middlewares/validate.middleware';
 import { checkToken } from '#middlewares/checkToken.middleware';
+// import { uploadSingle } from '#middlewares/upload.middleware';
 
 const router = Router();
 
-console.log('Upload routes initialized successfully in src/routes/upload.routes.ts');
 
-router.post('/single', checkToken(), upload.uploadSingle);
-router.post('/multiple', checkToken(), upload.uploadMultiple);
+// router.post('/single',uploadSingle('file'), upload.uploadSingle);
+router.post('/single', upload.uploadSingle2);
+
+// router.post('/single',uploadSingle('file'), function (req, res, next) {
+//     if (!req.file) {
+//         return res.status(400).json({
+//             success: false,
+//             message: 'No file uploaded',
+//         });
+//     }
+
+//     return res.json({
+//         success: true,
+//         message: 'File uploaded successfully',
+//         data: {
+//             filename: req.file.filename,
+//             path:  `${process.env.BASE_URL}uploads/${req.file.filename}`,
+//         },
+//     });
+
+//     res.json({
+//         success: true,
+//         message: 'File uploaded successfully',
+//     });
+// });
 
 export default router;

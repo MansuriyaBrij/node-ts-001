@@ -8,7 +8,7 @@ import { blacklistToken } from '#lib/tokenBlacklist';
 export class AuthController {
   // Register
   public async register(req: Request, res: Response) {
-    const { email, password, name } = req.body;
+    const { email, password, name, profile } = req.body;
 
     const user = await prisma.user.findUnique({ where: { email } });
 
@@ -27,6 +27,7 @@ export class AuthController {
         email,
         password: hashedPassword,
         name: name || null,
+        profile: profile || null,
       },
     });
 
@@ -35,6 +36,7 @@ export class AuthController {
       user: {
         id: newUser.id,
         email: newUser.email,
+        profile : newUser.profile,
       },
       token: jwt.sign(
         { userId: newUser.id },
