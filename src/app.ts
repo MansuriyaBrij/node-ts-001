@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import {UPLOAD_DIR} from '#config/constants';
 // import multer from 'multer';
 
 dotenv.config();
@@ -16,31 +17,29 @@ const PORT = process.env.PORT || 3000;
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // const upload = multer();
 
 
 // Create uploads folder if it doesn't exist
 // Recreate __dirname in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-// Define and ensure the uploads directory exists
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
-
-
-if (!fs.existsSync(UPLOAD_DIR)) {
-  try {
-    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-    console.log(`Upload directory created at: ${UPLOAD_DIR}`);
-  } catch (err) {
-    console.error(`Failed to create upload directory: ${(err as Error).message}`);
-  }
-}
+// // Define and ensure the uploads directory exists
+// const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
 
+// if (!fs.existsSync(UPLOAD_DIR)) {
+//   try {
+//     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+//     console.log(`Upload directory created at: ${UPLOAD_DIR}`);
+//   } catch (err) {
+//     console.error(`Failed to create upload directory: ${(err as Error).message}`);
+//   }
+// }
 
-
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use('/uploads', express.static(UPLOAD_DIR));
 
 // app.use('/api',upload.none(), routes); //milter

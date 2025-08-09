@@ -43,6 +43,11 @@ export class UploadController {
         })
 
     }
+
+    //demo malter 3
+    public async uploadEngine(req: Request, res: Response) {
+        
+    }
 }
 
 export default new UploadController();

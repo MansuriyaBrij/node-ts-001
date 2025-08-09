@@ -4,12 +4,25 @@ import upload from '#controllers/upload.controller';
 import { validate } from '#middlewares/validate.middleware';
 import { checkToken } from '#middlewares/checkToken.middleware';
 // import { uploadSingle } from '#middlewares/upload.middleware';
+import { uploadSingle } from '#middlewares/upload.middleware';
+
+import { uploadEngine } from '#middlewares/uploadEngine.middleware'
 
 const router = Router();
 
 
 // router.post('/single',uploadSingle('file'), upload.uploadSingle);
-router.post('/single', upload.uploadSingle2);
+router.post('/single2',
+    uploadEngine({
+        field: 'file',
+        folder: 'users',
+        validations: {
+        allowedTypes: ['image/png', 'image/jpeg'],
+        maxSizeMB: 2
+        },
+        storeInBodyAs: 'avatarPath'
+    })
+  , upload.uploadSingle);
 
 // router.post('/single',uploadSingle('file'), function (req, res, next) {
 //     if (!req.file) {
